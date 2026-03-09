@@ -1,233 +1,240 @@
-# CodeCraftHub
+# CodeCraftHub — Learning Management Dashboard
 
-## Project Overview
+![Python](https://img.shields.io/badge/Python-3.11-blue?logo=python)
+![Flask](https://img.shields.io/badge/Flask-REST_API-black?logo=flask)
+![JavaScript](https://img.shields.io/badge/JavaScript-Vanilla-yellow?logo=javascript)
+![HTML5](https://img.shields.io/badge/HTML5-Frontend-orange?logo=html5)
+![CSS3](https://img.shields.io/badge/CSS3-Styling-blue?logo=css3)
+![License](https://img.shields.io/badge/License-MIT-green)
 
-CodeCraftHub is a simple REST API built with **Python and Flask** that
-allows developers to track programming courses they want to learn.
+A lightweight **learning management dashboard** built with **Flask and vanilla JavaScript**.
+The application provides a simple **REST API backend** and a **single-page frontend dashboard** for managing learning courses.
 
-The project demonstrates the basics of building a **CRUD (Create, Read,
-Update, Delete) REST API** without using a database. Instead, course
-data is stored in a simple **JSON file**.
+The project focuses on **clean architecture, minimal dependencies, and clear API design**.
 
----------------
+---
 
-## Features
+# Features
 
-- Create new learning courses
-- View all courses
-- View a specific course
-- Update existing courses
-- Delete courses
-- JSON file storage (no database required)
-- Input validation for required fields
-- Status validation (`Not Started`, `In Progress`, `Completed`)
-- Auto-generated course IDs
-- Timestamp tracking (`created_at`)
-- CORS enabled for frontend integration
+* Manage learning courses through a clean dashboard
+* Full **CRUD REST API**
+* Course progress tracking
+* JSON file storage (no database required)
+* Input validation for all course fields
+* Course statistics endpoint
+* Responsive single-page UI
+* Real-time frontend → backend communication using `fetch()`
 
-------------------------------------------------------------------------
+---
 
-## Project Structure
+# Tech Stack
 
-    codecrafthub/
-    │
-    ├── app.py # Main Flask REST API application
-    ├── courses.json # JSON file used as simple storage
-    ├── requirements.txt # Python dependencies
-    ├── README.md # Project documentation
-    └── LICENSE # MIT License for open-source us
+**Backend**
 
-------------------------------------------------------------------------
+* Python
+* Flask
+* Flask-CORS
 
-## Installation Instructions
+**Frontend**
 
-### 1. Clone the repository
+* HTML5
+* CSS3
+* Vanilla JavaScript
 
-``` bash
-git clone https://github.com/aiedwardyi/codecrafthub.git
-cd codecrafthub
+**Storage**
+
+* JSON (`courses.json`)
+
+---
+
+# Project Structure
+
+```
+codecrafthub/
+│
+├── app.py              # Flask REST API server
+├── courses.json        # JSON storage for course data
+├── index.html          # Single-page dashboard UI
+├── requirements.txt    # Python dependencies
+└── README.md           # Project documentation
 ```
 
-### 2. Create a virtual environment (recommended)
+---
 
-``` bash
-python -m venv venv
+# API Overview
+
+Base URL
+
+```
+http://127.0.0.1:5050/api/courses
 ```
 
-Activate the environment:
+---
 
-**Windows**
+## Get All Courses
 
-``` bash
-venv\Scripts\activate
+```
+GET /api/courses
 ```
 
-**Mac/Linux**
+Returns a list of all courses.
 
-``` bash
-source venv/bin/activate
+---
+
+## Get Course by ID
+
+```
+GET /api/courses/<id>
 ```
 
-### 3. Install dependencies
+Returns details for a specific course.
 
-``` bash
-pip install -r requirements.txt
+---
+
+## Create Course
+
+```
+POST /api/courses
 ```
 
-------------------------------------------------------------------------
+Example request
 
-## Running the Application
-
-Start the Flask server:
-
-``` bash
-python app.py
-```
-
-The API will run at:
-
-    http://127.0.0.1:5050
-
-If `courses.json` does not exist, it will automatically be created when
-the server starts.
-
-------------------------------------------------------------------------
-
-## API Endpoints
-
-Base URL:
-
-    http://127.0.0.1:5050
-
-### Create a Course
-
-**POST** `/api/courses`
-
-Example:
-
-``` bash
-curl -X POST http://127.0.0.1:5050/api/courses -H "Content-Type: application/json" -d "{"name":"Python Basics","description":"Learn Python fundamentals","target_date":"2026-04-15","status":"Not Started"}"
-```
-
-------------------------------------------------------------------------
-
-### Get All Courses
-
-**GET** `/api/courses`
-
-``` bash
-curl http://127.0.0.1:5050/api/courses
-```
-
-------------------------------------------------------------------------
-
-### Get a Single Course
-
-**GET** `/api/courses/{id}`
-
-``` bash
-curl http://127.0.0.1:5050/api/courses/1
-```
-
-------------------------------------------------------------------------
-
-### Update a Course
-
-**PUT** `/api/courses/{id}`
-
-``` bash
-curl -X PUT http://127.0.0.1:5050/api/courses/1 -H "Content-Type: application/json" -d "{"name":"Python Basics Updated","description":"Updated description","target_date":"2026-05-01","status":"In Progress"}"
-```
-
-------------------------------------------------------------------------
-
-### Delete a Course
-
-**DELETE** `/api/courses/{id}`
-
-``` bash
-curl -X DELETE http://127.0.0.1:5050/api/courses/1
-```
-
-------------------------------------------------------------------------
-
-### Get Course Statistics
-
-**GET** `/api/courses/stats`
-
-Returns statistics about the stored courses.
-
-``` bash
-curl http://127.0.0.1:5050/api/courses/stats
-```
-
-Example response:
-
+```json
 {
-  "total_courses": 3,
-  "Not Started": 1,
+  "name": "Flask API Development",
+  "description": "Learn to build REST APIs with Flask",
+  "target_date": "2026-05-01",
+  "status": "In Progress"
+}
+```
+
+---
+
+## Update Course
+
+```
+PUT /api/courses/<id>
+```
+
+Example request
+
+```json
+{
+  "name": "Advanced Flask",
+  "description": "Deep dive into Flask APIs",
+  "target_date": "2026-06-01",
+  "status": "Completed"
+}
+```
+
+---
+
+## Delete Course
+
+```
+DELETE /api/courses/<id>
+```
+
+Removes a course from storage.
+
+---
+
+## Course Statistics
+
+```
+GET /api/courses/stats
+```
+
+Example response
+
+```json
+{
+  "total_courses": 4,
+  "Not Started": 2,
   "In Progress": 1,
   "Completed": 1
 }
-
-------------------------------------------------------------------------
-
-## Testing the API
-
-You can test the API using:
-
-- `curl`
-- PowerShell `Invoke-RestMethod`
-- Postman
-- Thunder Client (VS Code extension)
-
-Example PowerShell test:
-
-``` powershell
-Invoke-RestMethod -Method GET -Uri "http://127.0.0.1:5050/api/courses"
 ```
 
-------------------------------------------------------------------------
+---
 
-## Troubleshooting
+# Running the Project
 
-### Port already in use
+### 1. Install dependencies
 
-If port `5050` is busy, modify the port in `app.py`:
-
-``` python
-app.run(debug=True, port=5051)
 ```
-
-### Module not found error
-
-Make sure dependencies are installed:
-
-``` bash
 pip install -r requirements.txt
 ```
 
-### courses.json not found
+### 2. Start the API server
 
-The application automatically creates `courses.json` if it does not
-exist.
+```
+python app.py
+```
 
-------------------------------------------------------------------------
+The API will start at
 
-## Learning Objectives
+```
+http://127.0.0.1:5050
+```
 
-This project demonstrates:
+### 3. Open the dashboard
 
-- REST API design
-- CRUD operations
-- Flask backend development
-- JSON file storage
-- Input validation
-- API testing with curl
-- CORS configuration
+Open the frontend file in your browser:
 
-------------------------------------------------------------------------
+```
+index.html
+```
 
-## License
+The dashboard will automatically connect to the running API.
 
-This project is licensed under the [MIT License](LICENSE).
+---
+
+# Application Architecture
+
+The project follows a simple **API-first architecture**.
+
+```
+Frontend (index.html)
+      │
+      │  HTTP requests (fetch API)
+      ▼
+Flask REST API (app.py)
+      │
+      ▼
+JSON Storage (courses.json)
+```
+
+* The **frontend** handles UI rendering and user interaction.
+* The **Flask API** processes requests and performs validation.
+* Course data is stored in a lightweight **JSON file**.
+
+This design keeps the project simple while demonstrating **full-stack interaction between a frontend interface and backend API**.
+
+---
+
+# Example API Test
+
+Example request using PowerShell:
+
+```
+Invoke-RestMethod -Method GET -Uri "http://127.0.0.1:5050/api/courses"
+```
+
+---
+
+# License
+
+This project is licensed under the **MIT License**.
+
+See the full license here:
+
+[LICENSE](LICENSE)
+
+---
+
+# Author
+
+**Edward Yi**
+
+Software developer focused on building practical systems combining **software engineering, APIs, and AI-driven applications**.
